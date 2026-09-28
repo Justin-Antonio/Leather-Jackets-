@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hide Atelier — Handcrafted Leather Jackets</title>
+    <meta name="description" content="Handcrafted full-grain leather jackets. Biker, café racer and hooded styles — cut, stitched and finished by master artisans." />
+    <meta name="theme-color" content="#0c0a09" />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%230c0a09'/><text x='50%' y='58%' font-family='Georgia' font-size='36' fill='%23d4a86a' text-anchor='middle' dominant-baseline='middle'>H</text></svg>" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <!-- Loader -->
+    <div class="loader" id="loader">
+      <div class="loader__inner">
+        <svg class="loader__needle" viewBox="0 0 200 40" aria-hidden="true">
+          <path class="loader__thread" d="M5 20 H195" />
+        </svg>
+        <div class="loader__brand">HIDE <span>&amp;</span> ATELIER</div>
+        <div class="loader__bar"><span id="loaderBar"></span></div>
+        <div class="loader__txt" id="loaderTxt">Tanning the hide…</div>
+      </div>
+    </div>
+
+    <div class="cursor" id="cursor"></div>
+
+    <!-- 3D canvas (fixed, behind hero + anatomy) -->
+    <canvas id="webgl" aria-label="Interactive 3D leather jacket"></canvas>
+    <div class="hotspots" id="hotspots" aria-hidden="true">
+      <div class="hotspot" data-key="leather"><i></i><div><b>Full-grain Leather</b><small>1.2 mm aniline-dyed hide</small></div></div>
+      <div class="hotspot" data-key="stitch"><i></i><div><b>Quilted Shoulders</b><small>Hand-stitched ribbed padding</small></div></div>
+      <div class="hotspot" data-key="zipper"><i></i><div><b>YKK® Hardware</b><small>Polished nickel, smooth glide</small></div></div>
+      <div class="hotspot" data-key="lining"><i></i><div><b>Plaid Lining</b><small>Breathable viscose-cotton</small></div></div>
+      <div class="hotspot" data-key="collar"><i></i><div><b>Snap Stand Collar</b><small>Wind-proof café racer cut</small></div></div>
+    </div>
+
+    <!-- Header -->
+    <header class="nav" id="nav">
+      <a href="#top" class="nav__logo">HIDE <span>&amp;</span> ATELIER</a>
+      <nav class="nav__links" id="navLinks">
+        <a href="#anatomy">Craft</a>
+        <a href="#collection">Collection</a>
+        <a href="#process">Process</a>
+        <a href="#reviews">Reviews</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <div class="nav__actions">
+        <button class="icon-btn" id="wishBtn" aria-label="Wishlist">
+          <svg viewBox="0 0 24 24"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.7 4.5c2.1 0 3.6 1.2 5.3 3 1.7-1.8 3.2-3 5.3-3 3.7 0 5.8 3.9 4.3 7.3C19.5 16.4 12 21 12 21z"/></svg>
+          <em id="wishCount">0</em>
+        </button>
+        <button class="icon-btn" id="cartBtn" aria-label="Cart">
+          <svg viewBox="0 0 24 24"><path d="M5 7h14l-1.2 12.1a2 2 0 0 1-2 1.9H8.2a2 2 0 0 1-2-1.9L5 7z"/><path d="M9 7V6a3 3 0 0 1 6 0v1"/></svg>
+          <em id="cartCount">0</em>
+        </button>
+        <button class="burger" id="burger" aria-label="Menu"><span></span><span></span></button>
+      </div>
+    </header>
+
+    <main id="top">
+      <!-- HERO -->
+      <section class="hero" id="hero">
+        <div class="hero__content">
+          <p class="eyebrow reveal-hero">Autumn / Winter Collection</p>
+          <h1 class="hero__title">
+            <span class="line"><span>Worn by</span></span>
+            <span class="line"><span><em>legends.</em></span></span>
+            <span class="line"><span>Stitched by hand.</span></span>
+          </h1>
+          <p class="hero__sub reveal-hero">Full-grain leather jackets, cut from a single hide and hand-finished with over 2,400 stitches. Watch yours come together — then make it your own.</p>
+          <div class="hero__cta reveal-hero">
+            <a href="#collection" class="btn btn--gold magnetic">Shop the Collection</a>
+            <button class="btn btn--ghost magnetic" id="replayBtn">
+              <svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 2.3-5.7M4 4v4h4"/></svg>
+              Replay Stitching
+            </button>
+          </div>
+          <div class="swatches reveal-hero" id="swatches">
+            <span class="swatches__label">Leather: <b id="swatchName">Cognac</b></span>
+            <div class="swatches__row">
+              <button class="swatch active" data-color="cognac" style="--c:#8a4a24" aria-label="Cognac"></button>
+              <button class="swatch" data-color="black" style="--c:#1d1a19" aria-label="Midnight Black"></button>
+              <button class="swatch" data-color="camel" style="--c:#b3844f" aria-label="Camel"></button>
+              <button class="swatch" data-color="tobacco" style="--c:#6b4024" aria-label="Tobacco"></button>
+            </div>
+          </div>
+        </div>
+        <div class="hero__hint reveal-hero"><span class="drag-ico"></span> Drag to rotate</div>
+        <div class="scroll-cue"><span></span>Scroll</div>
+      </section>
+
+      <!-- ANATOMY (pinned, 3D explode) -->
+      <section class="anatomy" id="anatomy">
+        <div class="anatomy__panel">
+          <p class="eyebrow">Anatomy of a jacket</p>
+          <h2 class="section-title">Every layer,<br /><em>engineered.</em></h2>
+          <ol class="anatomy__steps" id="anatSteps">
+            <li class="active"><span>01</span><div><b>The Hide</b><p>Top 3% of full-grain cowhide, vegetable-tanned for 40 days.</p></div></li>
+            <li><span>02</span><div><b>The Stitch</b><p>Bonded nylon thread, 9 stitches per inch, reinforced at every stress point.</p></div></li>
+            <li><span>03</span><div><b>The Hardware</b><p>YKK® zippers & nickel snaps tested for 10,000 cycles.</p></div></li>
+            <li><span>04</span><div><b>The Lining</b><p>Soft plaid lining with an inner phone pocket.</p></div></li>
+          </ol>
+          <div class="anatomy__progress"><span id="anatBar"></span></div>
+        </div>
+      </section>
+
+      <!-- MARQUEE -->
+      <div class="marquee cover">
+        <div class="marquee__track">
+          <span>Full-Grain Leather</span><i>✦</i><span>Hand Stitched</span><i>✦</i><span>YKK® Zippers</span><i>✦</i><span>Lifetime Repairs</span><i>✦</i><span>Free Worldwide Shipping</span><i>✦</i>
+          <span>Full-Grain Leather</span><i>✦</i><span>Hand Stitched</span><i>✦</i><span>YKK® Zippers</span><i>✦</i><span>Lifetime Repairs</span><i>✦</i><span>Free Worldwide Shipping</span><i>✦</i>
+        </div>
+      </div>
+
+      <!-- COLLECTION -->
+      <section class="collection cover" id="collection">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow reveal">The Collection</p>
+            <h2 class="section-title reveal">Built to <em>age beautifully.</em></h2>
+          </div>
+          <div class="filters reveal" id="filters">
+            <button class="active" data-filter="all">All</button>
+            <button data-filter="biker">Biker</button>
+            <button data-filter="cafe">Café Racer</button>
+            <button data-filter="hooded">Hooded</button>
+          </div>
+        </div>
+        <div class="grid" id="productGrid"></div>
+      </section>
+
+      <!-- PROCESS -->
+      <section class="process cover" id="process">
+        <div class="section-head section-head--center">
+          <p class="eyebrow reveal">From hide to hero</p>
+          <h2 class="section-title reveal">Forty hours. <em>One jacket.</em></h2>
+        </div>
+        <div class="process__wrap">
+          <svg class="process__thread" viewBox="0 0 1200 220" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <mask id="threadMask"><path id="threadReveal" d="M0 110 C150 20 250 200 400 110 S650 20 800 110 S1050 200 1200 110" stroke="#fff" stroke-width="10" fill="none" /></mask>
+            </defs>
+            <path d="M0 110 C150 20 250 200 400 110 S650 20 800 110 S1050 200 1200 110" class="thread-dash" mask="url(#threadMask)" />
+          </svg>
+          <div class="process__steps">
+            <article class="step reveal"><div class="step__num">01</div><div class="step__ico"><svg viewBox="0 0 48 48"><path d="M8 38c6-2 8-10 16-10s10 8 16 10M10 14c4 4 24 4 28 0M24 6v22"/></svg></div><h3>Select</h3><p>Each hide is hand-graded under daylight lamps. Only 1 in 10 makes the cut.</p></article>
+            <article class="step reveal"><div class="step__num">02</div><div class="step__ico"><svg viewBox="0 0 48 48"><circle cx="14" cy="34" r="6"/><circle cx="34" cy="34" r="6"/><path d="M18 30 38 6M30 30 10 6"/></svg></div><h3>Cut</h3><p>Patterns are laid to follow the grain so the jacket moves with you.</p></article>
+            <article class="step reveal"><div class="step__num">03</div><div class="step__ico"><svg viewBox="0 0 48 48"><path d="M6 42 40 8M34 8h6v6"/><path d="M10 30c4 0 4 4 8 4s4-4 8-4" stroke-dasharray="3 3"/></svg></div><h3>Stitch</h3><p>Over 2,400 lock stitches — double-rowed on every seam that works hard.</p></article>
+            <article class="step reveal"><div class="step__num">04</div><div class="step__ico"><svg viewBox="0 0 48 48"><path d="M24 4l5 11 12 1-9 8 3 12-11-6-11 6 3-12-9-8 12-1z"/></svg></div><h3>Finish</h3><p>Hand-burnished edges, conditioned with beeswax, inspected twice.</p></article>
+          </div>
+        </div>
+        <div class="stats">
+          <div class="stat reveal"><b data-count="12000">0</b><span>Jackets crafted</span></div>
+          <div class="stat reveal"><b data-count="2400">0</b><span>Stitches per jacket</span></div>
+          <div class="stat reveal"><b data-count="40">0</b><span>Hours of handwork</span></div>
+          <div class="stat reveal"><b data-count="4.9" data-decimals="1">0</b><span>Average rating</span></div>
+        </div>
+      </section>
+
+      <!-- FEATURE BANNER -->
+      <section class="banner cover">
+        <div class="banner__img reveal"><img src="images/tobacco-cafe-racer.webp" alt="Tobacco café racer leather jacket with plaid lining" loading="lazy" /></div>
+        <div class="banner__txt">
+          <p class="eyebrow reveal">Made to measure</p>
+          <h2 class="section-title reveal">Your size. <em>Your story.</em></h2>
+          <p class="reveal">Send us your measurements and our tailors will cut a jacket that fits like it was always yours — at no extra cost. Every jacket ships with a lifetime repair promise.</p>
+          <ul class="checks reveal">
+            <li>Free custom sizing on every order</li>
+            <li>Personal monogram on the inner label</li>
+            <li>30-day no-questions returns</li>
+          </ul>
+          <button class="btn btn--gold reveal" id="sizeGuideBtn">Open Size Guide</button>
+        </div>
+      </section>
+
+      <!-- REVIEWS -->
+      <section class="reviews cover" id="reviews">
+        <div class="section-head section-head--center">
+          <p class="eyebrow reveal">Worn &amp; loved</p>
+          <h2 class="section-title reveal">What our <em>riders say.</em></h2>
+        </div>
+        <div class="slider reveal" id="slider">
+          <div class="slider__track" id="sliderTrack"></div>
+          <div class="slider__dots" id="sliderDots"></div>
+        </div>
+      </section>
+
+      <!-- CONTACT / NEWSLETTER -->
+      <section class="contact cover" id="contact">
+        <div class="contact__card reveal">
+          <div>
+            <p class="eyebrow">Join the atelier</p>
+            <h2 class="section-title">10% off your <em>first jacket.</em></h2>
+            <p>New drops, care guides and members-only offers. No spam — just leather.</p>
+          </div>
+          <form class="news-form" id="newsForm" novalidate>
+            <input type="email" name="email" placeholder="Your email address" aria-label="Email" required />
+            <button class="btn btn--gold" type="submit">Subscribe</button>
+            <small class="form-msg" id="newsMsg"></small>
+          </form>
+        </div>
+        <form class="contact-form reveal" id="contactForm" novalidate>
+          <h3>Questions? Talk to a tailor.</h3>
+          <div class="row">
+            <label>Name<input name="name" required minlength="2" /></label>
+            <label>Email<input name="email" type="email" required /></label>
+          </div>
+          <label>Message<textarea name="message" rows="4" required minlength="10"></textarea></label>
+          <button class="btn btn--ghost" type="submit">Send Message</button>
+          <small class="form-msg" id="contactMsg"></small>
+        </form>
+      </section>
+    </main>
+
+    <footer class="footer cover">
+      <div class="footer__grid">
+        <div>
+          <a href="#top" class="nav__logo">HIDE <span>&amp;</span> ATELIER</a>
+          <p>Handcrafted leather outerwear since 1998. Cut, stitched and finished by hand.</p>
+        </div>
+        <div><h4>Shop</h4><a href="#collection">Biker Jackets</a><a href="#collection">Café Racers</a><a href="#collection">Hooded Jackets</a></div>
+        <div><h4>Help</h4><a href="#contact">Contact</a><a href="#" data-open="sizeModal">Size Guide</a><a href="#contact">Shipping &amp; Returns</a></div>
+        <div><h4>Follow</h4><a href="#">Instagram</a><a href="#">Facebook</a><a href="#">TikTok</a></div>
+      </div>
+      <div class="footer__bottom"><span>© <span id="year"></span> Hide &amp; Atelier. All rights reserved.</span><span>Crafted with care — and a lot of thread.</span></div>
+    </footer>
+
+    <!-- Cart drawer -->
+    <div class="overlay" id="overlay"></div>
+    <aside class="drawer" id="cartDrawer" aria-label="Shopping cart">
+      <div class="drawer__head"><h3>Your Cart</h3><button class="icon-btn close" data-close aria-label="Close">✕</button></div>
+      <div class="ship-bar"><p id="shipTxt"></p><div><span id="shipFill"></span></div></div>
+      <div class="drawer__items" id="cartItems"></div>
+      <div class="drawer__foot">
+        <div class="sum"><span>Subtotal</span><b id="cartTotal">$0</b></div>
+        <button class="btn btn--gold btn--full" id="checkoutBtn">Checkout</button>
+      </div>
+    </aside>
+
+    <aside class="drawer" id="wishDrawer" aria-label="Wishlist">
+      <div class="drawer__head"><h3>Wishlist</h3><button class="icon-btn close" data-close aria-label="Close">✕</button></div>
+      <div class="drawer__items" id="wishItems"></div>
+    </aside>
+
+    <!-- Quick view -->
+    <div class="modal" id="quickModal" role="dialog" aria-modal="true">
+      <div class="modal__box modal__box--wide">
+        <button class="icon-btn close" data-close aria-label="Close">✕</button>
+        <div class="qv">
+          <div class="qv__img" id="qvImgWrap"><img id="qvImg" alt="" /><div class="qv__lens" id="qvLens"></div></div>
+          <div class="qv__info">
+            <p class="eyebrow" id="qvCat"></p>
+            <h3 id="qvName"></h3>
+            <div class="qv__rating">★★★★★ <span id="qvReviews"></span></div>
+            <div class="qv__price" id="qvPrice"></div>
+            <p id="qvDesc"></p>
+            <div class="qv__label">Size <a href="#" data-open="sizeModal">Size guide</a></div>
+            <div class="sizes" id="qvSizes"></div>
+            <div class="qv__label">Quantity</div>
+            <div class="qty"><button data-q="-1">−</button><span id="qvQty">1</span><button data-q="1">+</button></div>
+            <div class="qv__actions">
+              <button class="btn btn--gold" id="qvAdd">Add to Cart</button>
+              <button class="btn btn--ghost" id="qv3d">View in 3D</button>
+            </div>
+            <ul class="qv__meta"><li>Free shipping over $300</li><li>Lifetime repair promise</li></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Size guide -->
+    <div class="modal" id="sizeModal" role="dialog" aria-modal="true">
+      <div class="modal__box">
+        <button class="icon-btn close" data-close aria-label="Close">✕</button>
+        <h3>Size Guide</h3>
+        <p class="muted">Measurements in inches. Between sizes? Size up for layering.</p>
+        <table class="size-table">
+          <thead><tr><th>Size</th><th>Chest</th><th>Waist</th><th>Sleeve</th><th>Length</th></tr></thead>
+          <tbody>
+            <tr><td>S</td><td>36–38</td><td>30–32</td><td>24.5</td><td>25</td></tr>
+            <tr><td>M</td><td>39–41</td><td>33–35</td><td>25</td><td>26</td></tr>
+            <tr><td>L</td><td>42–44</td><td>36–38</td><td>25.5</td><td>27</td></tr>
+            <tr><td>XL</td><td>45–47</td><td>39–41</td><td>26</td><td>28</td></tr>
+            <tr><td>XXL</td><td>48–50</td><td>42–44</td><td>26.5</td><td>29</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Checkout -->
+    <div class="modal" id="checkoutModal" role="dialog" aria-modal="true">
+      <div class="modal__box">
+        <button class="icon-btn close" data-close aria-label="Close">✕</button>
+        <div id="checkoutBody">
+          <h3>Checkout</h3>
+          <div class="co-summary" id="coSummary"></div>
+          <form id="checkoutForm" novalidate>
+            <div class="row">
+              <label>Full name<input name="name" required minlength="2" autocomplete="name" /></label>
+              <label>Phone<input name="phone" required pattern="[0-9+\s\-]{7,}" autocomplete="tel" /></label>
+            </div>
+            <label>Email<input name="email" type="email" required autocomplete="email" /></label>
+            <label>Address<input name="address" required minlength="5" autocomplete="street-address" /></label>
+            <div class="row">
+              <label>City<input name="city" required autocomplete="address-level2" /></label>
+              <label>Country<input name="country" required autocomplete="country-name" /></label>
+            </div>
+            <div class="pay">
+              <label class="radio"><input type="radio" name="pay" value="cod" checked /> Cash on Delivery</label>
+              <label class="radio"><input type="radio" name="pay" value="bank" /> Bank Transfer</label>
+            </div>
+            <button class="btn btn--gold btn--full" type="submit">Place Order</button>
+            <small class="form-msg" id="coMsg"></small>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
