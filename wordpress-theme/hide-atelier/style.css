@@ -1,0 +1,19 @@
+/*
+Theme Name: Hide Atelier
+Theme URI: https://example.com/hide-atelier
+Author: Hide Atelier
+Description: Premium WooCommerce theme for leather jacket brands. Real-photo 3D hero with live stitching animation, scroll-driven detail tour, product pages with size buttons, automatic country-based currency, policy pages and a one-click demo setup (Appearance → Hide Atelier Setup).
+Version: 1.0.0
+Requires at least: 6.3
+Tested up to: 6.8
+Requires PHP: 7.4
+License: GNU General Public License v2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: hide-atelier
+Tags: e-commerce, woocommerce, custom-logo, custom-menu, featured-images, translation-ready
+
+WC requires at least: 7.0
+WC tested up to: 9.8
+*/
+
+/* All theme styles are compiled into assets/css/main.css (see /src in the repository). */

@@ -1,0 +1,21 @@
+{
+  "name": "hide-atelier-theme",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Build tools for the Hide Atelier WordPress theme",
+  "scripts": {
+    "build": "node build.mjs",
+    "images": "node images.mjs",
+    "zip": "node build.mjs --zip"
+  },
+  "devDependencies": {
+    "@fontsource/fraunces": "^5.0.0",
+    "@fontsource/inter": "^5.0.0",
+    "adm-zip": "^0.5.16",
+    "esbuild": "^0.25.0",
+    "gsap": "^3.15.0",
+    "sharp": "^0.34.0",
+    "three": "^0.186.1"
+  }
+}

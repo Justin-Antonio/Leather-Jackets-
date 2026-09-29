@@ -36,3 +36,11 @@ The `dist/` folder is static. Upload it to Netlify, Vercel, GitHub Pages, cPanel
 
 > Note: orders, messages and newsletter sign-ups are stored in the browser (localStorage) for the demo.
 > Connect the checkout and contact forms to your backend, WhatsApp or an email service for production.
+
+---
+
+## WordPress version
+
+A full WordPress + WooCommerce theme (multi-page, real-photo 3D hero, product pages, country-based
+currency, policy pages) lives in [`wordpress-theme/`](wordpress-theme/README.md).
+Upload `wordpress-theme/hide-atelier.zip` in WordPress → Appearance → Themes → Add New → Upload Theme.
